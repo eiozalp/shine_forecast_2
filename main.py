@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import json
-from typing import List
+from typing import List, Optional
 from get_data_processing import *
 from model import Model
 import os
@@ -34,7 +34,7 @@ async def train():
 
 class PredictRequest(BaseModel):
     customer_id: int
-    product_ids: List[int]| None = None
+    product_ids: Optional(List[int])
 
 @app.post('/predict')
 async def get_predict(predictRequest: PredictRequest):
