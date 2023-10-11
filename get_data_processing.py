@@ -20,7 +20,7 @@ def read_file_from_s3(bucket_name, file_name):
 
 
 def create_data_processing():
-  file = read_file_from_s3("demoltbucket", "customer_product_ratings.csv")
+  file = read_file_from_s3("demotlbucket", "customer_product_ratings.csv")
 
   df = pd.read_csv(file)
   # df = pd.read_csv('/Users/13596107/Desktop/customer_product_ratings.csv')
