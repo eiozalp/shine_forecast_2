@@ -2,15 +2,25 @@ import joblib
 import pandas as pd
 from data_processing import DataProcessing
 import boto3
-
+import os
 def read_file_from_s3(bucket_name, file_name):
-    s3 = boto3.client('s3')
-    obj = s3.get_object(Bucket=bucket_name, Key=file_name)
-    data = obj['Body']
-    return data
+  s3 = boto3.resource(
+  service_name='s3',
+  region_name=os.getenv("AWS_REGION_NAME"),
+  aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+  aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
+)
+    
+  try:
+    obj = s3.Object(bucket_name, file_name)
+    file_content = obj.get()['Body']
+    return file_content
+  except Exception as e:
+    print(f"Error reading the file: {e}")
+
 
 def create_data_processing():
-  file = read_file_from_s3("rb_test", "machine_learning/customer_product_ratings/customer_product_ratings.csv")
+  file = read_file_from_s3("demoltbucket", "customer_product_ratings.csv")
 
   df = pd.read_csv(file)
   # df = pd.read_csv('/Users/13596107/Desktop/customer_product_ratings.csv')
