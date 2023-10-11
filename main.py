@@ -36,7 +36,7 @@ class PredictRequest(BaseModel):
     customer_id: int
     product_ids: List[int]| None = None
 
-@app.post('/predict/')
+@app.post('/predict')
 async def get_predict(predictRequest: PredictRequest):
   s3 = boto3.client('s3', aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"), aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
   
